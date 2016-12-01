@@ -4,7 +4,7 @@
             <p>San Diego, CA</p>
         </div>
         <div class="col-xs-4 text-xs-right">
-            <h1>{{ weatherData.temp | number: '.0-0' }}&deg;</h1>
+            <h1>{{ weatherData.temp | tempUnit: currentTempUnit | number: '.0-0' }}&deg;</h1>
         </div>
     </div>
     <div class="card-block">
@@ -14,7 +14,7 @@
     <div class="card-footer">
         <div class="col-xs-5">
             <p>Wind</p>
-            <p>{{ weatherData.wind }}mph</p>
+            <p>{{ weatherData.wind | speedUnit: currentSpeedUnit }}</p>
         </div>
         <div class="col-xs-5 offset-xs-2">
             <p>Humidity</p>

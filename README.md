@@ -1,1 +1,3 @@
-# angular2skeleton
+# Weather Component Angular 2
+
+

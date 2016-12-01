@@ -15,6 +15,8 @@ var WeatherComponent = (function () {
     function WeatherComponent(service) {
         this.service = service;
         this.weatherData = new weather_1.Weather(null, null, null, null, null);
+        this.currentSpeedUnit = "mph";
+        this.currentTempUnit = "fahrenheit";
     }
     WeatherComponent.prototype.ngOnInit = function () {
         this.getCurrentLocation();
