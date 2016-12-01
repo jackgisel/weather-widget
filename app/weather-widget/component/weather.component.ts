@@ -13,8 +13,9 @@ import { Weather } from '../model/weather';
 export class WeatherComponent implements OnInit {
     pos: Position;
     weatherData = new Weather(null, null, null, null, null);
-    currentSpeedUnit = "mph";
+    currentSpeedUnit = "kph";
     currentTempUnit = "fahrenheit";
+    currentLocation = "";
 
     constructor(private service: WeatherService) { }
 
@@ -26,7 +27,8 @@ export class WeatherComponent implements OnInit {
         this.service.getCurrentLocation()
             .subscribe(position => {
                 this.pos = position;
-                this.getCurrentWeather()
+                this.getCurrentWeather();
+                this.getLocationName();
             },
             err => console.error(err));
     }
@@ -41,5 +43,35 @@ export class WeatherComponent implements OnInit {
                 this.weatherData.icon = weather["currently"]["icon"];
             },
             err => console.error(err));
+    }
+
+    getLocationName() {
+        this.service.getLocatoinName(this.pos.coords.latitude, this.pos.coords.longitude)
+        .subscribe(location => {
+            console.log(location);
+            this.currentLocation = location["results"][2]["formatted_address"];
+            console.log(this.currentLocation);
+        })
+    }
+
+    toggleUnits() {
+        this.toggleTempUnits();
+        this.toggleSpeedUnits();
+    }
+
+    toggleTempUnits() {
+        if(this.currentTempUnit == "fahrenheit") {
+            this.currentTempUnit = "celsius";
+        } else {
+            this.currentTempUnit = "fahrenheit";
+        }
+    }
+
+    toggleSpeedUnits() {
+        if(this.currentSpeedUnit == "kph") {
+            this.currentSpeedUnit = "mph";
+        } else {
+            this.currentSpeedUnit = "kph";
+        }
     }
 }

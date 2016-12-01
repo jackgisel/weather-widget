@@ -1,7 +1,7 @@
-<div class="card">
+<div class="card" (click)="toggleUnits()">
     <div class="card-header">
         <div class="col-xs-8">
-            <p>San Diego, CA</p>
+            <p>{{ currentLocation }}</p>
         </div>
         <div class="col-xs-4 text-xs-right">
             <h1>{{ weatherData.temp | tempUnit: currentTempUnit | number: '.0-0' }}&deg;</h1>

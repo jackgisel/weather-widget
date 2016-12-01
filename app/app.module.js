@@ -22,7 +22,7 @@ var AppModule = (function () {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, http_1.JsonpModule],
+            imports: [platform_browser_1.BrowserModule, http_1.JsonpModule, http_1.HttpModule],
             declarations: [app_component_1.AppComponent, weather_component_1.WeatherComponent, speed_unit_pipe_1.SpeedUnitPipe, temp_unit_pipe_1.TempUnitPipe],
             bootstrap: [app_component_1.AppComponent]
         }), 
