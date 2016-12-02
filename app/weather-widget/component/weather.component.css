@@ -57,3 +57,18 @@ p {
 p:not(.unit-label) {
     text-transform: uppercase;
 }
+#refresh-footer {
+    background-color: greenyellow;
+    color: darkgrey;
+    font-size: .6rem;
+    padding: .2rem;
+}
+#refresh-footer p {
+    padding: .2rem;
+}
+#refresh-footer .btn {
+    padding: 3px;
+}
+#refresh-footer i {
+    padding-right: .5rem; 
+}

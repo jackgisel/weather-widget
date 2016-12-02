@@ -5,6 +5,7 @@ import { WEATHER_COLORS } from '../constants/constants';
 
 declare var Skycons: any;
 
+
 @Component({
     moduleId: module.id,
     selector: 'weather-widget',
@@ -21,11 +22,13 @@ export class WeatherComponent implements OnInit {
     currentLocation = "";
     icons = new Skycons();
     dataReceived = false;
+    date;
 
     constructor(private service: WeatherService) { }
 
     ngOnInit() {
         this.getCurrentLocation();
+        this.date = Date();
     }
 
     getCurrentLocation() {
@@ -34,6 +37,7 @@ export class WeatherComponent implements OnInit {
                 this.pos = position;
                 this.getCurrentWeather();
                 this.getLocationName();
+                console.log(this.date);
             },
             err => console.error(err));
     }
@@ -48,6 +52,7 @@ export class WeatherComponent implements OnInit {
                 this.weatherData.icon = weather["currently"]["icon"];
                 this.setIcon();
                 this.dataReceived = true;
+                //console.log(this.weatherData);
             },
             err => console.error(err));
     }
@@ -55,9 +60,9 @@ export class WeatherComponent implements OnInit {
     getLocationName() {
         this.service.getLocatoinName(this.pos.coords.latitude, this.pos.coords.longitude)
         .subscribe(location => {
-            console.log(location); //DELETE
+            // console.log(location); DELETE
             this.currentLocation = location["results"][2]["formatted_address"];
-            console.log(this.currentLocation); //DELETE
+            // console.log(this.currentLocation);
         })
     }
 
