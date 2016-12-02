@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var weather_service_1 = require('../service/weather.service');
 var weather_1 = require('../model/weather');
+var constants_1 = require('../constants/constants');
 var WeatherComponent = (function () {
     function WeatherComponent(service) {
         this.service = service;
@@ -18,6 +19,8 @@ var WeatherComponent = (function () {
         this.currentSpeedUnit = "kph";
         this.currentTempUnit = "fahrenheit";
         this.currentLocation = "";
+        this.icons = new Skycons();
+        this.dataReceived = false;
     }
     WeatherComponent.prototype.ngOnInit = function () {
         this.getCurrentLocation();
@@ -40,15 +43,17 @@ var WeatherComponent = (function () {
             _this.weatherData.wind = weather["currently"]["windSpeed"];
             _this.weatherData.humidity = weather["currently"]["humidity"];
             _this.weatherData.icon = weather["currently"]["icon"];
+            _this.setIcon();
+            _this.dataReceived = true;
         }, function (err) { return console.error(err); });
     };
     WeatherComponent.prototype.getLocationName = function () {
         var _this = this;
         this.service.getLocatoinName(this.pos.coords.latitude, this.pos.coords.longitude)
             .subscribe(function (location) {
-            console.log(location);
+            console.log(location); //DELETE
             _this.currentLocation = location["results"][2]["formatted_address"];
-            console.log(_this.currentLocation);
+            console.log(_this.currentLocation); //DELETE
         });
     };
     WeatherComponent.prototype.toggleUnits = function () {
@@ -69,6 +74,20 @@ var WeatherComponent = (function () {
         }
         else {
             this.currentSpeedUnit = "kph";
+        }
+    };
+    WeatherComponent.prototype.setIcon = function () {
+        this.icons.add("icon", this.weatherData.icon);
+        this.icons.play();
+    };
+    WeatherComponent.prototype.setStyles = function () {
+        if (this.weatherData.icon) {
+            this.icons.color = constants_1.WEATHER_COLORS[this.weatherData.icon]["color"];
+            return constants_1.WEATHER_COLORS[this.weatherData.icon];
+        }
+        else {
+            this.icons.color = constants_1.WEATHER_COLORS["default"]["color"];
+            return constants_1.WEATHER_COLORS["default"];
         }
     };
     WeatherComponent = __decorate([

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../service/weather.service';
 import { Weather } from '../model/weather';
+import { WEATHER_COLORS } from '../constants/constants';
+
+declare var Skycons: any;
 
 @Component({
     moduleId: module.id,
@@ -16,6 +19,8 @@ export class WeatherComponent implements OnInit {
     currentSpeedUnit = "kph";
     currentTempUnit = "fahrenheit";
     currentLocation = "";
+    icons = new Skycons();
+    dataReceived = false;
 
     constructor(private service: WeatherService) { }
 
@@ -41,6 +46,8 @@ export class WeatherComponent implements OnInit {
                 this.weatherData.wind = weather["currently"]["windSpeed"];
                 this.weatherData.humidity = weather["currently"]["humidity"];
                 this.weatherData.icon = weather["currently"]["icon"];
+                this.setIcon();
+                this.dataReceived = true;
             },
             err => console.error(err));
     }
@@ -48,9 +55,9 @@ export class WeatherComponent implements OnInit {
     getLocationName() {
         this.service.getLocatoinName(this.pos.coords.latitude, this.pos.coords.longitude)
         .subscribe(location => {
-            console.log(location);
+            console.log(location); //DELETE
             this.currentLocation = location["results"][2]["formatted_address"];
-            console.log(this.currentLocation);
+            console.log(this.currentLocation); //DELETE
         })
     }
 
@@ -72,6 +79,21 @@ export class WeatherComponent implements OnInit {
             this.currentSpeedUnit = "mph";
         } else {
             this.currentSpeedUnit = "kph";
+        }
+    }
+
+    setIcon() {
+        this.icons.add("icon", this.weatherData.icon);
+        this.icons.play();
+    }
+
+    setStyles(): Object {
+        if(this.weatherData.icon) {
+            this.icons.color = WEATHER_COLORS[this.weatherData.icon]["color"];
+            return WEATHER_COLORS[this.weatherData.icon];
+        } else {
+            this.icons.color = WEATHER_COLORS["default"]["color"];
+            return WEATHER_COLORS["default"];
         }
     }
 }
